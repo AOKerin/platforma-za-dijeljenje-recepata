@@ -2,6 +2,5 @@
 
 Projektni zadatak iz kolegija Web programiranje.
 
-Izradili:
+Izradio:
 - Anton Oliver Kerin
-- Vjeko Raguž
