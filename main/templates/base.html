@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html lang="hr">
+<head>
+    <meta charset="UTF-8">
+    <title>Recepti</title>
+</head>
+<body>
+
+<nav>
+    <a href="/">Početna</a> |
+    <a href="{% url 'recipe-list' %}">Recepti</a> |
+
+    {% if user.is_authenticated %}
+        Pozdrav, {{ user.username }} |
+        <form method="post" action="{% url 'logout' %}" style="display:inline;">
+            {% csrf_token %}
+            <button type="submit">Logout</button>
+        </form>
+    {% else %}
+        <a href="{% url 'login' %}">Login</a> |
+        <a href="/register/">Registracija</a>
+    {% endif %}
+</nav>
+
+<hr>
+
+{% block content %}{% endblock %}
+
+</body>
+</html>

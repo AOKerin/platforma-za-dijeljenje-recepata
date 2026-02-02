@@ -1,0 +1,19 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<h2>Popis recepata</h2>
+
+<ul>
+    {% for recipe in recipes %}
+        <li>
+            <a href="{% url 'recipe-detail' recipe.pk %}">
+                {{ recipe.title }}
+            </a>
+            <br>
+            <small>Kategorija: {{ recipe.category.name }}</small>
+        </li>
+    {% empty %}
+        <li>Nema recepata.</li>
+    {% endfor %}
+</ul>
+{% endblock %}
