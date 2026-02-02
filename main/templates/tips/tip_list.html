@@ -1,0 +1,17 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<h2>Kulinarski savjeti</h2>
+
+<ul>
+    {% for tip in tips %}
+        <li>
+            {{ tip.content }}<br>
+            <small>Recept: <a href="{% url 'recipe-detail' tip.recipe.pk %}">{{ tip.recipe.title }}</a></small>
+        </li>
+    {% empty %}
+        <li>Nema savjeta.</li>
+    {% endfor %}
+</ul>
+
+{% endblock %}

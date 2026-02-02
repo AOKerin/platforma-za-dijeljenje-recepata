@@ -3,7 +3,7 @@ from django.contrib.auth.forms import UserCreationForm
 from django.contrib.auth import login
 from django.shortcuts import redirect
 from django.views.generic import ListView, DetailView, CreateView, UpdateView, DeleteView
-from .models import Recipe, Category
+from .models import Recipe, Category, Tip
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.urls import reverse_lazy
 
@@ -76,3 +76,7 @@ class RecipeDeleteView(LoginRequiredMixin, DeleteView):
     success_url = reverse_lazy('recipe-list')
 
 
+class TipListView(ListView):
+    model = Tip
+    template_name = 'tips/tip_list.html'
+    context_object_name = 'tips'
