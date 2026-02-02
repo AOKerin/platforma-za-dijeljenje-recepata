@@ -4,6 +4,9 @@ from django.contrib.auth import login
 from django.shortcuts import redirect
 from django.views.generic import ListView, DetailView
 from .models import Recipe
+from django.views.generic import CreateView, UpdateView, DeleteView
+from django.contrib.auth.mixins import LoginRequiredMixin
+from django.urls import reverse_lazy
 
 def index(request):
     return render(request, 'index.html')
@@ -29,3 +32,27 @@ class RecipeListView(ListView):
 class RecipeDetailView(DetailView):
     model = Recipe
     template_name = 'recipes/recipe_detail.html'
+
+
+class RecipeCreateView(LoginRequiredMixin, CreateView):
+    model = Recipe
+    fields = ['title', 'description', 'ingredients', 'category']
+    template_name = 'recipes/recipe_form.html'
+    success_url = reverse_lazy('recipe-list')
+
+    def form_valid(self, form):
+        form.instance.author = self.request.user
+        return super().form_valid(form)
+
+
+class RecipeUpdateView(LoginRequiredMixin, UpdateView):
+    model = Recipe
+    fields = ['title', 'description', 'ingredients', 'category']
+    template_name = 'recipes/recipe_form.html'
+    success_url = reverse_lazy('recipe-list')
+
+
+class RecipeDeleteView(LoginRequiredMixin, DeleteView):
+    model = Recipe
+    template_name = 'recipes/recipe_confirm_delete.html'
+    success_url = reverse_lazy('recipe-list')

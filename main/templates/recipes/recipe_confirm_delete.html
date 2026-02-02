@@ -1,0 +1,14 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<h2>Brisanje recepta</h2>
+
+<p>Jeste li sigurni da želite obrisati recept: <strong>{{ object.title }}</strong>?</p>
+
+<form method="post">
+    {% csrf_token %}
+    <button type="submit">Da, obriši</button>
+</form>
+
+<a href="{% url 'recipe-list' %}">Odustani</a>
+{% endblock %}
