@@ -2,9 +2,8 @@ from django.shortcuts import render
 from django.contrib.auth.forms import UserCreationForm
 from django.contrib.auth import login
 from django.shortcuts import redirect
-from django.views.generic import ListView, DetailView
-from .models import Recipe
-from django.views.generic import CreateView, UpdateView, DeleteView
+from django.views.generic import ListView, DetailView, CreateView, UpdateView, DeleteView
+from .models import Recipe, Category
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.urls import reverse_lazy
 
@@ -27,6 +26,25 @@ class RecipeListView(ListView):
     model = Recipe
     template_name = 'recipes/recipe_list.html'
     context_object_name = 'recipes'
+
+    def get_queryset(self):
+        queryset = Recipe.objects.all()
+
+        search_query = self.request.GET.get('q')
+        category_id = self.request.GET.get('category')
+
+        if search_query:
+            queryset = queryset.filter(title__icontains=search_query)
+
+        if category_id:
+            queryset = queryset.filter(category_id=category_id)
+
+        return queryset
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context['categories'] = Category.objects.all()
+        return context
 
 
 class RecipeDetailView(DetailView):
@@ -56,3 +74,5 @@ class RecipeDeleteView(LoginRequiredMixin, DeleteView):
     model = Recipe
     template_name = 'recipes/recipe_confirm_delete.html'
     success_url = reverse_lazy('recipe-list')
+
+

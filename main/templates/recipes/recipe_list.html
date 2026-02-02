@@ -4,6 +4,23 @@
 <h2>Popis recepata</h2>
 
 <ul>
+    <form method="get">
+        <input type="text" name="q" placeholder="Pretraži recepte..." value="{{ request.GET.q }}">
+    
+        <select name="category">
+            <option value="">Sve kategorije</option>
+            {% for category in categories %}
+                <option value="{{ category.id }}"
+                    {% if request.GET.category == category.id|stringformat:"s" %}selected{% endif %}>
+                    {{ category.name }}
+                </option>
+            {% endfor %}
+        </select>
+    
+        <button type="submit">Pretraži</button>
+    </form>
+    
+    <hr>    
     {% for recipe in recipes %}
         <li>
             <a href="{% url 'recipe-detail' recipe.pk %}">
